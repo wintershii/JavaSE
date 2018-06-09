@@ -12,7 +12,7 @@ public class UpdateStu implements Comparable<Object>{               //创建类�
 
     public int compareTo(Object o){
         UpdateStu upstu = (UpdateStu)o;
-        int result = id > upstu.id?1:(id == upstu.id?0:1);
+        int result = id > upstu.id ? 1 : (id == upstu.id ? 0 : -1);
         return result;
     }
 
@@ -52,12 +52,12 @@ public class UpdateStu implements Comparable<Object>{               //创建类�
             System.out.println(stu.getId()+"  "+stu.getName());
         }
 
-//        it = tree.subSet(stu1,stu2).iterator();
-//        System.out.println("截取中间部分的集合");
-//        while(it.hasNext()){
-//            UpdateStu stu = (UpdateStu)it.next();
-//            System.out.println(stu.getId()+"  "+stu.getName());
-//        }
+        it = tree.subSet(stu1,stu3).iterator();
+        System.out.println("截取中间部分的集合");
+        while(it.hasNext()){
+           UpdateStu stu = (UpdateStu)it.next();
+           System.out.println(stu.getId()+"  "+stu.getName());
+        }
 
     }
 
