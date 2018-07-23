@@ -1,16 +1,22 @@
 package com.thread;
 
 public class Web12306 implements Runnable{
-     private int num = 50;
-
+     private int num = 500;
+     private boolean flag = true;
     @Override
-    public void run() {
-        while (true){
-            if (num <= 0)
-                break;
-            System.out.println(Thread.currentThread().getName()+"抢到了"+num--);
+    public  void run() {
+        while (flag){
+            test();
         }
 
+    }
+
+    public synchronized void test(){
+        if (num <= 0){
+            flag = false;
+            return;
+        }
+        System.out.println(Thread.currentThread().getName()+"抢到了"+num--);
     }
 
     public static void main(String[] args) {
