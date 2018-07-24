@@ -21,25 +21,26 @@ public class Server {
     }
 
     public void start() throws IOException {
-        ServerSocket server = new ServerSocket(6666);
+        ServerSocket server = new ServerSocket(7777);
         while(true) {
             Socket client = server.accept();
             MyChannel channel = new MyChannel(client);
             all.add(channel);
             new Thread(channel).start();        //一条道路
-
         }
     }
 
     /**
      * 一个客户一条道路
+     * 建立服务器与客户端之间的数据通道
      *
      */
-    private  class MyChannel implements Runnable{
+    private  class MyChannel implements Runnable {
 
         private DataInputStream dis;
         private DataOutputStream dos;
         private boolean flag = true;
+        private String name;
 
         public MyChannel(Socket client) {
             try {
@@ -57,8 +58,9 @@ public class Server {
                 }
             }
         }
+
         //接收客户端的信息
-        private String receive(){
+        private String receive() {
             String msg = "";
             try {
                 msg = dis.readUTF();
@@ -74,11 +76,14 @@ public class Server {
             }
             return msg;
         }
+
         //向客户端发送信息
-        private void send(String msg){
-            if(null == msg || msg.equals("")){
+        private void send(String msg) {
+            if (null == msg || msg.equals("")) {
                 return;
             }
+
+
             try {
                 dos.writeUTF(time());
                 dos.writeUTF(msg);
@@ -94,30 +99,48 @@ public class Server {
             }
         }
 
-        private void sendOthers(){
-        //    send(receive());
-            String msg = receive();
-            for(MyChannel other:all){
-                if(other == this){
-                    continue;
+        private void sendOthers(String msg) {
+            //判断是否是私聊
+            if (msg.contains("@") && msg.indexOf("：") > msg.indexOf("@")){
+                String spot = null;
+
+                String secreName = msg.substring(msg.indexOf("@") + 1, msg.indexOf("："));
+                String secretMsg = msg.substring(msg.indexOf("：") + 1);
+//                System.out.println(secreName);
+//                System.out.println(secretMsg);
+
+                for (MyChannel other : all) {
+                    if (secreName.equals(other.name)) {
+                        other.send(name + "悄悄地对你说：" + secretMsg);
+                    }
+
                 }
-                other.send(msg);
+            }else{
+
+                    for (MyChannel other : all) {
+                        if (other == this) {
+                            continue;
+                        }
+                        other.send(msg);
+                    }
+                }
+            }
+
+
+                private String time () {
+                    Date now = new Date(System.currentTimeMillis());
+                    String time = new SimpleDateFormat("yyyy.MM.dd  hh:mm:ss").format(now);
+                    return time;
+                }
+
+                @Override
+                public void run () {
+                    send("欢迎加入群聊");
+                    name = receive();
+                    sendOthers(name + "加入了群聊");
+                    while (flag) {
+                        sendOthers(receive());
+                    }
+                }
             }
         }
-
-        private String time(){
-            Date now = new Date(System.currentTimeMillis());
-            String time = new SimpleDateFormat("yyyy.MM.dd  hh:mm:ss").format(now);
-            return time;
-        }
-
-        @Override
-        public void run() {
-
-            while (flag){
-
-                sendOthers();
-            }
-        }
-    }
-}

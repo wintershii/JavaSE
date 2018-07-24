@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public class Client {
+public class Client3 {
     public static void main(String[] args) throws IOException {
         System.out.println("请输入昵称");
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,5 +17,4 @@ public class Client {
         //客户端接收
         new Thread(new Receive(client)).start();
     }
-
 }

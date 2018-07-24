@@ -5,16 +5,15 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * 接收线程
+ * 接收数据
  */
+
 public class Receive implements Runnable{
     //输入流
     private DataInputStream dis;
-    //线程标识
+    //线程标识，判断线程运行状态
     private boolean flag = true;
 
-    public Receive() {
-    }
 
     public Receive(Socket client){
         try {

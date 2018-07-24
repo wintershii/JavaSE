@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 发送数据
@@ -16,12 +18,15 @@ public class Send implements Runnable{
     private DataOutputStream dos;
     //控制线程
     private boolean flag= true;
+    //聊天昵称
+    private String name;
 
     public Send() {
         console = new BufferedReader(new InputStreamReader(System.in));
     }
-    public Send(Socket client){
+    public Send(Socket client,String name){
         this();
+        this.name = name;
         try {
             dos = new DataOutputStream(client.getOutputStream());
         } catch (IOException e) {
@@ -39,12 +44,17 @@ public class Send implements Runnable{
         }
         return "";
     }
+
+
     //发送数据
-    public void send(){
-        String msg = getMsgFromConsole();
+    public void send(String msg){
         if (null != msg && !msg.equals("")){
             try {
-                dos.writeUTF(msg);
+                dos.writeUTF(name +": " + msg);
+                Date now = new Date(System.currentTimeMillis());
+                String time = new SimpleDateFormat("hh:mm:ss   yyyy/MM/dd  ").format(now);
+                System.out.println(time);
+                System.out.println(name + ":" + msg);
                 dos.flush();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -57,14 +67,21 @@ public class Send implements Runnable{
                 }
 
             }
+        }else{
+            try {
+                dos.writeUTF(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void run() {
         //线程体
+        send("");
         while (flag){
-            send();
+            send(getMsgFromConsole());
         }
     }
 }
