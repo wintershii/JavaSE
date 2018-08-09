@@ -2,10 +2,13 @@ package com.dao;
 
 import java.sql.*;
 
+/**
+ *  JDBC的工具类 包含获取connection与关闭资源方法
+ */
 public class JDBCUtil {
     public static Connection getConnection(){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/managesystem?useSSL=false&" +
                             "serverTimezone=GMT%2B8&characterEncoding=utf-8","root","990708");
             return conn;

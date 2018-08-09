@@ -48,7 +48,9 @@ public class Student {
         return classroom;
     }
 
-
+    public void setUser(String user) {
+        this.user = user;
+    }
     public void setPwd(String pwd) {
         this.pwd = pwd;
     }
