@@ -4,7 +4,9 @@ import com.service.ManageOperate;
 
 import java.util.Scanner;
 
-
+/**
+ *  管理员主界面，选择要进行的操作
+ */
 public class ManageScreen {
     public static void manageScreen(){
         ManageOperate mo = new ManageOperate();

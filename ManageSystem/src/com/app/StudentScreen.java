@@ -4,6 +4,10 @@ import com.service.StudentOperate;
 
 import java.util.Scanner;
 
+/**
+ * 学生端主界面
+ */
+
 public class StudentScreen {
     public static void studentScreen(){
         StudentOperate so = new StudentOperate();

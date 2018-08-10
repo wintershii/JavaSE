@@ -7,6 +7,9 @@ import com.service.TeacherOperate;
 
 import java.util.Scanner;
 
+/**
+ *  程序主界面，实例化service层的类，进入登陆界面
+ */
 
 public class MainScreen {
     public static void main(String[] args) {

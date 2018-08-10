@@ -102,6 +102,11 @@ public class ManageDao {
         }
     }
 
+    /**
+     * 将指定用户名的教师从数据库中删除
+     * @param teachId
+     * @return
+     */
     public  boolean deleteTeacherDao(String teachId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -118,6 +123,11 @@ public class ManageDao {
         }
     }
 
+    /**
+     * 从数据库中获取指定用户名的教师信息，并实例化为一个Teacher类并返回
+     * @param teachId
+     * @return
+     */
     public Teacher printTeacherDao(String teachId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -144,6 +154,13 @@ public class ManageDao {
         }
     }
 
+    /**
+     *  在数据库中修改指定用户名的教师的指定列的信息
+     * @param teachId
+     * @param column
+     * @param newInfo
+     * @return
+     */
     public boolean alterTeacherDao(String teachId,String column, String newInfo){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -160,6 +177,10 @@ public class ManageDao {
         }
     }
 
+    /**
+     *  从数据库中获取所有教师的用户名信息，并在service层调用()
+     * @return
+     */
     public List<String> printAllTeacherDao(){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -180,6 +201,18 @@ public class ManageDao {
         }
     }
 
+    /**
+     *  新增学生信息进入数据库
+     * @param user
+     * @param pwd
+     * @param name
+     * @param phone
+     * @param major
+     * @param classroom
+     * @param serial
+     * @param entranceTime
+     * @return
+     */
     public boolean newStudentDao(String user,String pwd,String name,String phone,String major,String classroom,
                                     Integer serial, Date entranceTime){
         Connection conn = null;
@@ -205,6 +238,11 @@ public class ManageDao {
         }
     }
 
+    /**
+     * 在数据库中删除指定用户名的学生的信息
+     * @param user
+     * @return
+     */
     public boolean deleteStudentDao(String user){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -221,6 +259,11 @@ public class ManageDao {
         }
     }
 
+    /**
+     *  返回指定专业或所有学生的信息的List容器对象
+     * @param major
+     * @return
+     */
     public List<Student> printAllStudentDao(String major){
         Connection conn = null;
         PreparedStatement ps = null;

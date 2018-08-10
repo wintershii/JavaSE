@@ -1,18 +1,25 @@
 package com.dao;
 
 import com.model.Student;
-import jdk.nashorn.internal.scripts.JD;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 教师操作的DAO层
+ */
 public class TeacherDao {
+    /**
+     * 判断教师登陆是否成功，成功后进入教师主界面
+     * @param teachId
+     * @param pwd
+     * @return
+     */
     public  boolean teacherLogIn(String teachId, String pwd) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -39,6 +46,11 @@ public class TeacherDao {
         }
     }
 
+    /**
+     * 根据教师的用户名查询教师的科目
+     * @param teachId
+     * @return
+     */
     public String searchSubject(String teachId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -59,15 +71,16 @@ public class TeacherDao {
         }
     }
 
+    /**
+     *  获取到教师的学科，并对学生的该学科打分
+     * @param subject
+     * @param list
+     * @return
+     */
     public boolean inputGradeDao(String subject,List<Student> list){
         Connection conn = null;
         PreparedStatement ps = null;
-        String sub = null;
-        switch (subject){
-            case "高数": sub = "math"; break;
-            case "英语": sub = "english";  break;
-            case "C语言": sub = "cProgram";break;
-        }
+        String sub = toSub(subject);
 
         try {
             conn = JDBCUtil.getConnection();
@@ -94,6 +107,10 @@ public class TeacherDao {
         }
     }
 
+    /**
+     * 判断学生成绩表是否为空
+     * @return
+     */
     public boolean isEmpty(){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -118,6 +135,9 @@ public class TeacherDao {
         }
     }
 
+    /**
+     * 初始化学生成绩表(只加入学生的学号)
+     */
     public void initStuGrade() {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -128,15 +148,30 @@ public class TeacherDao {
             Iterator it = list.iterator();
             while (it.hasNext()) {
                 Student stu = (Student) it.next();
-                ps = conn.prepareStatement("insert into stugrade (userId) values (?)");
-                ps.setString(1,stu.getUser());
-                ps.executeUpdate();
+
+                ps = conn.prepareStatement("select userId from stugrade");
+                ResultSet rs2 = ps.executeQuery();
+                boolean flag = true;
+                while (rs2.next()) {
+                    String sourceId = rs2.getString("userId");
+                    if (sourceId.equals(stu.getUser())){
+                        flag = false;
+                    }
+                }
+                if (flag) {
+                    ps = conn.prepareStatement("insert into stugrade (userId) values (?)");
+                    ps.setString(1, stu.getUser());
+                    ps.executeUpdate();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * 更新学生信息表
+     */
     public void updateGrade(){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -169,7 +204,13 @@ public class TeacherDao {
 
     }
 
-
+    /**
+     * 求学生的各门科目的总分
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
     public Integer add(Integer a, Integer b, Integer c){
         Integer sum = 0;
         if (a != null)
@@ -181,6 +222,10 @@ public class TeacherDao {
         return sum;
     }
 
+    /**
+     * 修改指定学生的成绩
+     * @param userId
+     */
     public void alterGradeDao(String userId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -224,11 +269,19 @@ public class TeacherDao {
 
     }
 
+    /**
+     * 根据学号查找学生信息
+     * @param userId
+     */
     public void searchStudentDao(String userId){
         searchStuDao(userId);
         searchGraDao(userId);
     }
 
+    /**
+     * 查询学生的基本信息
+     * @param userId
+     */
     public void searchGraDao(String userId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -261,7 +314,10 @@ public class TeacherDao {
         }
     }
 
-
+    /**
+     * 查询学生的成绩信息
+     * @param userId
+     */
     public void searchStuDao(String userId){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -278,8 +334,8 @@ public class TeacherDao {
             ps.setString(1,userId);
             rs = ps.executeQuery();
             while (rs.next()){
-                name = rs.getString("stuName");
                 major = rs.getString("major");
+                name = rs.getString("stuName");
                 classroom = rs.getInt("classroom");
                 serial = rs.getInt("serial");
             }
@@ -292,15 +348,13 @@ public class TeacherDao {
         }
     }
 
+    /**
+     * 对该科目学生的成绩进行排名
+     * @param teachId
+     */
     public void gradeSortDao(String teachId){
         String subject = searchSubject(teachId);
-        String sub = null;
-
-        switch (subject){
-            case "高数": sub = "math"; break;
-            case "英语": sub = "english";  break;
-            case "C语言": sub = "cProgram";break;
-        }
+        String sub = toSub(subject);
 
         Connection conn = null;
         PreparedStatement ps = null;
@@ -327,8 +381,9 @@ public class TeacherDao {
                 while (rs2.next()){
                     name = rs2.getString("stuName");
                     major = rs2.getString("major");
-                    classroom = rs2.getInt("classroom");
                     serial = rs2.getInt("serial");
+                    classroom = rs2.getInt("classroom");
+
                 }
                 System.out.println("--------第" + i++ + "名-----");
                 System.out.println(name + ":  " + grade + "  " + major + "  " + classroom + "  " + serial);
@@ -337,5 +392,16 @@ public class TeacherDao {
             e.printStackTrace();
         }
     }
+
+    public String toSub(String subject){
+        String sub = null;
+        switch (subject){
+            case "高数": sub = "math"; break;
+            case "英语": sub = "english";  break;
+            case "C语言": sub = "cProgram";break;
+        }
+        return sub;
+    }
+
 }
 

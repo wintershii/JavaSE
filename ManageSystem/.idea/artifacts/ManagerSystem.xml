@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ManagerSystem">
+    <output-path>$PROJECT_DIR$/out/artifacts/ManagerSystem</output-path>
+    <root id="archive" name="ManagerSystem.jar">
+      <element id="module-output" name="ManageSystem" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="file-copy" path="$USER_HOME$/Downloads/mysql-connector-java-8.0.12.jar" />
+    </root>
+  </artifact>
+</component>

@@ -1,12 +1,16 @@
 package com.model;
 
+/**
+ *  成绩类
+ */
+
 public class Grade {
-    private String user;
-    private Integer math;
-    private Integer english;
-    private Integer cProgram;
-    private Integer sum;
-    private Integer point;
+    private String user;//学生学号
+    private Integer math;//数学成绩
+    private Integer english;//英语成绩
+    private Integer cProgram;//C语言成绩
+    private Integer sum;//总成绩
+    private Integer point;//绩点
 
     public Grade() {
     }

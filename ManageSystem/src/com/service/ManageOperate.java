@@ -2,6 +2,7 @@ package com.service;
 
 import com.dao.JDBCUtil;
 import com.dao.ManageDao;
+import com.dao.TeacherDao;
 import com.model.Student;
 import com.model.Teacher;
 
@@ -18,10 +19,10 @@ import static com.app.ManageScreen.manageScreen;
 import static com.dao.Input.*;
 
 /**
- * 管理员操作
+ * 管理员service层操作
  */
 public class ManageOperate {
-
+    //实例化DAO层的类之后调用方法
     ManageDao md = new ManageDao();
     /**
      *  管理员登陆时调用，若数据库中管理员表为空，则调用新增管理员方法，否则进行登陆
@@ -72,8 +73,9 @@ public class ManageOperate {
         }
     }
 
-
-
+    /**
+     * 新增管理员，第一次进入系统时(管理员表为空时)可以设置，之后也可以在管理员界面添加
+     */
     public  void newManager() {
         Scanner scan = new Scanner(System.in);
         System.out.println("---请输入你的用户名(必须是4位)：");
@@ -93,6 +95,9 @@ public class ManageOperate {
         }
     }
 
+    /**
+     * 新增教师信息
+     */
     public  void newTeacher(){
         Scanner scan = new Scanner(System.in);
         System.out.println("请输入教师用户名(必须是8位):");
@@ -116,6 +121,9 @@ public class ManageOperate {
 
     }
 
+    /**
+     * 删除教师信息
+     */
     public  void deleteTeacher(){
         System.out.println("请输入要删除的教师的用户名");
         Scanner scan = new Scanner(System.in);
@@ -129,6 +137,9 @@ public class ManageOperate {
         }
     }
 
+    /**
+     * 对教师信息进行修改
+     */
     public  void alterTeacher(){
         System.out.println("请输入教师用户名");
         Scanner scan = new Scanner(System.in);
@@ -168,6 +179,10 @@ public class ManageOperate {
         }
     }
 
+    /**
+     * 打印指定教师信息，参数为教师的用户名
+     * @param teachId
+     */
     public void printTeacher(String teachId){
         Teacher teach = md.printTeacherDao(teachId);
         System.out.print("教师用户名：" + teach.getUser() + "     ");
@@ -178,6 +193,9 @@ public class ManageOperate {
         System.out.println("教师科目：" + teach.getSubject());
     }
 
+    /**
+     * 打印处所有教师的信息
+     */
     public void printAllTeacher(){
         List<String> list = md.printAllTeacherDao();
         Iterator it = list.iterator();
@@ -188,6 +206,9 @@ public class ManageOperate {
         }
     }
 
+    /**
+     * 新增学生信息
+     */
     public void newStudent(){
         Scanner scan = new Scanner(System.in);
         System.out.print("请输入学生学号：");
@@ -211,8 +232,12 @@ public class ManageOperate {
         }else {
             System.out.println("新增学生失败");
         }
+        new TeacherDao().initStuGrade();
     }
 
+    /**
+     * 删除学生信息
+     */
     public void deleteStudent(){
         System.out.print("请输入要删除的学生学号:");
         Scanner scan = new Scanner(System.in);
@@ -225,6 +250,9 @@ public class ManageOperate {
         }
     }
 
+    /**
+     * 打印出所有学生的信息
+     */
     public void printAllStudent(){
         System.out.println("请选择要打印的专业:");
         System.out.println("1.计算机科学");

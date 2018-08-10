@@ -1,12 +1,15 @@
 package com.model;
 
+/**
+ *  教师类
+ */
 public class Teacher {
-    private String user;
-    private String pwd;
-    private String name;
-    private String phone;
-    private String major;
-    private String subject;
+    private String user;//教师用户名
+    private String pwd;//密码
+    private String name;//教师姓名
+    private String phone;//教师手机号
+    private String major;//教师专业
+    private String subject;//教师所在科目
 
     public Teacher() {
     }

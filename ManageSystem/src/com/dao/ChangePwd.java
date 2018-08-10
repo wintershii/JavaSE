@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class ChangePwd {
+    /**
+     * 修改密码选择界面
+     */
     public void changePwd(){
         System.out.println("-----请选择你的身份-----");
         System.out.println("-----1.   学生    ------");
@@ -24,7 +27,10 @@ public class ChangePwd {
         changePwd(identity);
     }
 
-
+    /**
+     * 实际修改密码界面，从控制台获取账号密码，并在数据库中一一判断是否对应，若对应则修改密码为新密码
+     * @param identity
+     */
     public void changePwd(String identity){
         Connection conn = null;
         PreparedStatement ps = null;

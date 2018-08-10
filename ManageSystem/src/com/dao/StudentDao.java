@@ -5,7 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ *  学生端操作的DAO层
+ */
 public class StudentDao {
+    /**
+     * 登陆操作，根据输入的账号密码在数据库中一一判断是否对应，并返回结果
+     * @param user
+     * @param pwd
+     * @return
+     */
     public boolean logInDao(String user, String pwd){
         Connection conn = null;
         PreparedStatement ps = null;
@@ -28,6 +37,12 @@ public class StudentDao {
         }
     }
 
+    /**
+     * 先根据学生学号，在学生信息表中获取其专业与班级信息
+     * 再在成绩信息表中获取总分的排名信息
+     * 将排名信息根据 对应专业和班级筛选，最终打印
+     * @param userId
+     */
     public void classSortDao(String userId){
         Connection conn = null;
         PreparedStatement ps = null;

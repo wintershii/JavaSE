@@ -1,10 +1,13 @@
 package com.model;
 
+/**
+ * 管理员类
+ */
 public class Manager {
-    private String user;
-    private String pwd;
-    private String name;
-    private String phone;
+    private String user;//用户名
+    private String pwd;//密码
+    private String name;//管理员姓名
+    private String phone;//管理员手机号
 
     public Manager() {
     }

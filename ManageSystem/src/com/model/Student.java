@@ -2,15 +2,18 @@ package com.model;
 
 import java.sql.Date;
 
+/**
+ *  学生类
+ */
 public class Student {
-    private String user;
-    private String pwd;
-    private String name;
-    private String phone;
-    private String major;
-    private Integer classroom;
-    private Integer serial;
-    private Date entranceTime;
+    private String user;//学生用户名
+    private String pwd;//密码
+    private String name;//学生姓名
+    private String phone;//学生手机号
+    private String major;//学生所在专业
+    private Integer classroom;//学生所在班级
+    private Integer serial;//学生班内序号
+    private Date entranceTime;//入学时间
 
     public Student() {
     }

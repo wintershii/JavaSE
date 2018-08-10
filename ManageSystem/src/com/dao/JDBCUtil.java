@@ -6,6 +6,10 @@ import java.sql.*;
  *  JDBC的工具类 包含获取connection与关闭资源方法
  */
 public class JDBCUtil {
+    /**
+     * 获取 manageSystem 数据库下的connection资源
+     * @return conn
+     */
     public static Connection getConnection(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -22,7 +26,6 @@ public class JDBCUtil {
             return null;
         }
     }
-
 
     public static void close(ResultSet rs, Statement ps, Connection conn){
         try {
