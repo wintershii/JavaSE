@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact name="ManageSystem:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ManageSystem_jar</output-path>
+    <root id="root">
+      <element id="archive" name="ManageSystem.jar">
+        <element id="module-output" name="ManageSystem" />
+      </element>
+      <element id="library" level="project" name="mysql-connector-java-8.0.12" />
+      <element id="directory" name="libs">
+        <element id="file-copy" path="$USER_HOME$/Downloads/mysql-connector-java-8.0.12.jar" />
+      </element>
+    </root>
+  </artifact>
+</component>
